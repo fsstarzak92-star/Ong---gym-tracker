@@ -74,6 +74,7 @@ h2 {
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
+    
 }
 
 .bottom-nav {
@@ -99,4 +100,14 @@ h2 {
 .nav-btn.active {
     background: #70B072;
     color: white;
+}
+
+.delete-btn {
+    background: none;
+    color: #ff4d4d;
+    border: none;
+    padding: 8px 12px;
+    font-weight: bold;
+    cursor: pointer;
+   
 }

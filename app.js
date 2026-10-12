@@ -14,14 +14,19 @@ function showScreen(screenId) {
         targetScreen.classList.add('active');
     }
 
-    event.target.classList.add('active');
+    const correspondingBtn = document.querySelector(`.nav-btn[onclick*="${screenId}"]`);
+    if (correspondingBtn) {
+        correspondingBtn.classList.add('active');
+    }
+
+    localStorage.setItem('activeScreen', screenId);
 }
 
 function addSet() {
     const workoutScreen = document.querySelector('#screen-workout');
     const newCard = document.createElement('div');
     newCard.className = 'card';
-    newCard.innerHTML = '<p>Seria: 120 kg x 10 powtórzeń</p>';
+    newCard.innerHTML = '<p>Seria: 120 kg x 10 powtórzeń<button class="delete-btn" onclick="removeSet(this)">X</button></p>';
     document.getElementById('add-btn').insertAdjacentElement('beforebegin', newCard);
 }
 
@@ -82,7 +87,7 @@ function loadWorkoutData() {
         for (let i = 2; i < savedCount; i++) {
             const newCard = document.createElement('div');
             newCard.className = 'card';
-            newCard.innerHTML = '<p>Seria: 120 kg x 10 powtórzeń</p>';
+            newCard.innerHTML = '<p>Seria: 120 kg x 10 powtórzeń <button class="delete-btn" onclick="removeSet(this)">X</button></p>';
             workoutScreen.insertBefore(newCard, btnElement);
         }
     }
@@ -90,4 +95,21 @@ function loadWorkoutData() {
 
 window.onload = function() {
     loadWorkoutData();
+    
+    const savedScreen = localStorage.getItem('activeScreen');
+    if (savedScreen) {
+        showScreen(savedScreen);
+    }
+}   
+
+function removeSet(button) {
+    const card = button.closest('.card');
+    if (card) {
+        card.remove();
+        let currentCount = localStorage.getItem('workoutSetsCount');
+        if (currentCount && currentCount > 0) {
+            localStorage.setItem('workoutSetsCount', currentCount - 1);
+        }
+    }
 }
+
