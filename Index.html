@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <section id="screen-dashboard" class="screen active">
+            <h2>Pulpit</h2>
+            <div class="card">
+                <p><strong>Regularność:</strong> ⭐⭐⭐⭐☆ (4 dni)</p>
+            </div>
+            <div class="card">
+                <p><strong>Porównanie:</strong> +15% objętości vs zeszły tydzień</p>
+            </div>
+            <div class="card">
+                <p><strong>Rekordy:</strong> Klata 90kg | Nogi 130kg</p>
+            </div>
+        </section>
+
+        <section id="screen-profile" class="screen">
+            <h2>Profil & BMI</h2>
+            <div class="card">
+                <p>Waga docelowa: <strong>75 kg</strong></p>
+                <p>Waga aktualna: <strong>78 kg</strong></p>
+                <p>Wzrost: <strong>180 cm</strong></p>
+            </div>
+            <div class="card highlight">
+                <p><strong>BMI: 24.1</strong> (Prawidłowe)</p>
+            </div>
+        </section>
+
+        <section id="screen-workout" class="screen">
+            <h2>Aktywny Trening</h2>
+            <div id="timer" class="timer">00:00:00</div>
+            
+            <div class="timer-controls" style="display: flex; gap: 8px; margin-bottom: 10px;">
+                <button class="btn" onclick="startTimer()">Start</button>
+                <button class="btn" onclick="stopTimer()">Pause</button>
+                <button class="btn" onclick="resetTimer()">Reset</button>
+            </div>
+
+            <div class="card">
+                <p><strong>Ćwiczenie:</strong> Leg Press</p>
+                <p>Seria 1: 100 kg x 12</p>
+                <p>Seria 2: 110 kg x 10</p>
+            </div>
+            <button id="add-btn" class="btn" onclick="addSet()">+ Dodaj serię</button>
+            <button class="btn" onclick="saveWorkout()">Zapisz Trening</button>
+        </section>
+
+        <section id="screen-history" class="screen">
+            <h2>Historia Treningów</h2>
+            <div class="card">
+                <p><strong>06.10.2026 - Trening Nóg</strong></p>
+                <p>Leg Press: 3 serie</p>
+                <p>Przysiady: 2 serie</p>
+            </div>
+        </section>
+
+        <nav class="bottom-nav">
+            <button class="nav-btn active" onclick="showScreen('dashboard')">Pulpit</button>
+            <button class="nav-btn" onclick="showScreen('profile')">Profil</button>
+            <button class="nav-btn" onclick="showScreen('workout')">Trening</button>
+            <button class="nav-btn" onclick="showScreen('history')">Historia</button>
+        </nav>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
