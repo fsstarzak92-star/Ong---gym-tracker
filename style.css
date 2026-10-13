@@ -19,7 +19,7 @@ body {
     width: 360px;
     height: 640px;
     border-radius: 24px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -74,7 +74,7 @@ h2 {
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
-    
+
 }
 
 .bottom-nav {
@@ -103,11 +103,42 @@ h2 {
 }
 
 .delete-btn {
-    background: none;
-    color: #ff4d4d;
+    margin-left: auto;
+    background-color: #ff4d4d;
+    color: white;
     border: none;
-    padding: 8px 12px;
-    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
     cursor: pointer;
-   
+}
+
+.set-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputs-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.set-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.delete-btn {
+    background-color: #e57373;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
 }
