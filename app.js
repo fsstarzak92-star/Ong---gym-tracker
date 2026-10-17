@@ -47,6 +47,10 @@ function showScreen(screenId) {
         loadHistory();
     }
 
+    if (screenId === 'profile') {
+        loadPersonalRecords();
+    }
+
     localStorage.setItem('activeScreen', screenId);
 }
 
@@ -73,12 +77,12 @@ function saveSingleSet(button) {
     const card = button.closest('.card');
     const weightInput = card.querySelector('.weight-input');
     const repsInput = card.querySelector('.reps-input');
-    
+
     const weight = parseFloat(weightInput.value);
     const reps = parseInt(repsInput.value);
 
-    if (!weight || !reps || isNaN(weight) || isNaN(reps)) {
-        alert('Wypełnij poprawnie wagę i powtórzenia!');
+    if (isNaN(weight) || isNaN(reps) || weight <= 0 || reps <= 0) {
+        showToast('Wypełnij poprawnie wagę i powtórzenia!', true);
         return;
     }
 
@@ -101,9 +105,10 @@ function saveSingleSet(button) {
 
     loadDashboardStats();
     loadHistory();
+    loadPersonalRecords();
     updateTotalWeightToday();
-    
-    alert('Seria została zapisana!');
+
+    showToast('Seria została zapisana!');
     weightInput.value = '';
     repsInput.value = '';
 }
@@ -168,6 +173,7 @@ function deleteWorkout(index) {
 
     loadDashboardStats();
     loadHistory();
+    loadPersonalRecords();
     updateTotalWeightToday();
 }
 
@@ -178,6 +184,11 @@ let timerInterval = null;
 
 function startTimer() {
     if (timerInterval !== null) return;
+
+    const timerEl = document.getElementById('timer');
+    const statusEl = document.getElementById('timer-status');
+    if (timerEl) timerEl.classList.add('running');
+    if (statusEl) statusEl.classList.add('active');
 
     timerInterval = setInterval(() => {
         seconds++;
@@ -195,7 +206,6 @@ function startTimer() {
             String(minutes).padStart(2, '0') + ':' +
             String(seconds).padStart(2, '0');
 
-        const timerEl = document.getElementById('timer');
         if (timerEl) timerEl.textContent = formattedTime;
     }, 1000);
 }
@@ -205,18 +215,38 @@ function stopTimer() {
     timerInterval = null;
 }
 
+function stopTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+
+    const timerEl = document.getElementById('timer');
+    const statusEl = document.getElementById('timer-status');
+    if (timerEl) timerEl.classList.remove('running');
+    if (statusEl) statusEl.classList.remove('active');
+}
+
 function resetTimer() {
     stopTimer();
     seconds = 0;
     minutes = 0;
     hours = 0;
+    
     const timerEl = document.getElementById('timer');
-    if (timerEl) timerEl.textContent = '00:00:00';
+    const statusEl = document.getElementById('timer-status');
+    
+    if (timerEl) {
+        timerEl.textContent = '00:00:00';
+        timerEl.classList.remove('running');
+    }
+    if (statusEl) {
+        statusEl.classList.remove('active');
+    }
 }
 
 window.onload = function () {
     loadDashboardStats();
     loadHistory();
+    loadPersonalRecords();
     updateTotalWeightToday();
 
     const savedScreen = localStorage.getItem('activeScreen');
@@ -244,6 +274,41 @@ function loadDashboardStats() {
     }
 }
 
+function loadPersonalRecords() {
+    const prContainer = document.getElementById('pr-container');
+    if (!prContainer) return;
+
+    let workoutHistory = getStorageData('workoutHistory');
+    let maxWeights = {};
+
+    workoutHistory.forEach(workout => {
+        if (workout.exercise && Array.isArray(workout.sets)) {
+            workout.sets.forEach(set => {
+                const w = parseFloat(set.weight) || 0;
+                if (!maxWeights[workout.exercise] || w > maxWeights[workout.exercise]) {
+                    maxWeights[workout.exercise] = w;
+                }
+            });
+        }
+    });
+
+    const exercises = Object.keys(maxWeights);
+    if (exercises.length === 0) {
+        prContainer.innerHTML = '<p style="font-size: 13px; color: #6b7c70;">Brak rekordów. Zapisz pierwsze serie!</p>';
+        return;
+    }
+
+    prContainer.innerHTML = '';
+    exercises.forEach(exercise => {
+        prContainer.innerHTML += `
+            <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 2px 0;">
+                <span style="color: #6b7c70; max-width: 65%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${exercise}</span>
+                <strong style="color: #2e7d32;">${maxWeights[exercise]} kg</strong>
+            </div>
+        `;
+    });
+}
+
 function updateTotalWeightToday() {
     let workoutHistory = getStorageData('workoutHistory');
     const today = new Date().toISOString().split('T')[0];
@@ -254,7 +319,7 @@ function updateTotalWeightToday() {
             workout.sets.forEach(set => {
                 const w = parseFloat(set.weight) || 0;
                 const r = parseInt(set.reps) || 0;
-                totalWeight += w * r; // Łączny tonaż (waga * powtórzenia) lub sama suma wag wg uznania
+                totalWeight += w * r;
             });
         }
     });
@@ -334,11 +399,11 @@ function selectCategory(category) {
             <h3 style="margin: 6px 0 12px 0; font-size: 16px;">Wybierz ćwiczenie</h3>
             <div style="display: flex; flex-direction: column; gap: 8px;">
     `;
-    
+
     exercises.forEach(exercise => {
         exercisesHTML += `<button class="btn" style="background: #f4f7f5; color: #1a2e22; border: 1px solid #d1ded4; text-align: left;" onclick="selectExercise('${exercise}')">🏋️‍♂️ ${exercise}</button>`;
     });
-    
+
     exercisesHTML += `</div>
             <button class="btn" style="margin-top: 12px; background: #6b7c70;" onclick="startNewWorkout()">← Wróć do kategorii</button>
         </div>
@@ -381,4 +446,24 @@ function selectExercise(exercise) {
             <button class="btn" style="background: #6b7c70;" onclick="selectCategory('${currentCategory}')">← Wróć do ćwiczeń</button>
         </div>
     `;
+}
+
+function showToast(message, isError = false) {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${isError ? 'toast-error' : ''}`;
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 2000);
 }

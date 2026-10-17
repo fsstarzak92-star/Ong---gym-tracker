@@ -102,6 +102,7 @@
             <h1>Aktywny Trening</h1>
             <p class="subtitle">Wybierz ćwiczenie i zapisuj serie</p>
         </div>
+        <div class="header-icon" onclick="startNewWorkout()">New</div>
     </div>
 
     <div id="workout-flow-container">
@@ -120,7 +121,7 @@
     </div>
 
     <div class="card" style="text-align: center; background: linear-gradient(135deg, #f1f8f2 0%, #ffffff 100%);">
-        <span class="card-label">Czas przerw / treningu</span>
+        <span class="card-label"><span id="timer-status" class="timer-status"></span> Czas przerw / treningu</span>
         <div id="timer" class="timer">00:00:00</div>
         <div style="display: flex; gap: 8px; justify-content: center;">
             <button class="btn" style="padding: 8px 14px; font-size: 12px;" onclick="startTimer()">Start</button>
@@ -144,7 +145,7 @@
             <h1>Historia Treningów</h1>
             <p class="subtitle">Wszystkie Twoje zapisane sesje</p>
         </div>
-        <div class="header-icon" onclick="loadHistory()">Load</div>
+        <div class="header-icon" onclick="loadHistory()">Load </div>
     </div>
 
     <div id="history-list" style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px;">
