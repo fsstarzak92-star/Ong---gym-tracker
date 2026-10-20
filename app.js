@@ -1,10 +1,76 @@
 const exerciseDatabase = {
-    "Klatka piersiowa": ["Wyciskanie sztangi na ławce poziomej", "Wyciskanie hantli na ławce skośnej", "Rozpiętki na maszynie"],
-    "Plecy": ["Podciąganie na drążku", "Wiosłowanie sztangą", "Martwy ciąg"],
-    "Barki": ["Wyciskanie hantli nad głową", "Unoszenie hantli bokiem", "Unoszenie hantli w opadzie tułowia"],
-    "Nogi": ["Przysiady ze sztangą", "Wykroki z hantlami", "Prostowanie nóg na maszynie"],
-    "Biceps": ["Uginanie ramion ze sztangą", "Uginanie ramion z hantlami", "Uginanie ramion na modlitewniku"],
-    "Triceps": ["Prostowanie ramion na wyciągu", "Pompki na poręczach", "Francuskie wyciskanie sztangi leżąc"]
+    "Klatka piersiowa": [
+        "Wyciskanie sztangi na ławce poziomej",
+        "Wyciskanie hantli na ławce skośnej",
+        "Rozpiętki na maszynie",
+        "Wyciskanie na maszynie",
+        "Pompki na poręczach",
+        "Wyciskanie sztangi na ławce skośnej ujemnej",
+        "Rozpiętki z hantlami na ławce poziomej",
+        "Wyciskanie hantli na ławce poziomej",
+        "Przenoszenie hantla w leżeniu",
+        "Wyciskanie na maszynie typu Hammer"
+    ],
+    "Plecy": [
+        "Podciąganie na drążku",
+        "Wiosłowanie sztangą",
+        "Martwy ciąg",
+        "Ściąganie drążka wyciągu do klatki",
+        "Wiosłowanie hantlem w oparciu",
+        "Wiosłowanie na maszynie siedząc",
+        "Ściąganie drążka wyciągu wąskim chwytem",
+        "Przyciąganie uchwytu do brzucha na wyciągu",
+        "Ściąganie ramion prostych na wyciągu",
+        "Wznosy tułowia na ławce rzymskiej"
+    ],
+    "Barki": [
+        "Wyciskanie hantli nad głową",
+        "Unoszenie hantli bokiem",
+        "Unoszenie hantli w opadzie tułowia",
+        "Wyciskanie żołnierskie",
+        "Wznosy ramion w przód z hantlami",
+        "Wyciskanie sztangi zza głowy",
+        "Unoszenie ramion bokiem na wyciągu",
+        "Wyciskanie hantli na maszynie siedząc",
+        "Wznosy w leżeniu na ławce skośnej",
+        "Odwrotne rozpiętki na maszynie"
+    ],
+    "Nogi": [
+        "Przysiady ze sztangą",
+        "Wykroki z hantlami",
+        "Prostowanie nóg na maszynie",
+        "Uginanie nóg leżąc",
+        "Wypychanie ciężaru na suwnicy",
+        "Przysiady bułgarskie z hantlami",
+        "Martwy ciąg na prostych nogach",
+        "Wspięcia na palce stojąc",
+        "Przysiady frontowe ze sztangą",
+        "Wypychanie bioder ze sztangą"
+    ],
+    "Biceps": [
+        "Uginanie ramion ze sztangą",
+        "Uginanie ramion z hantlami",
+        "Uginanie ramion na modlitewniku",
+        "Uginanie młotkowe z hantlami",
+        "Uginanie ramion na wyciągu dolnym",
+        "Uginanie hantli z supinacją",
+        "Koncentryczne uginanie ramienia",
+        "Uginanie ramion na wyciągu górnym",
+        "Uginanie ramion ze sztangą łamaną",
+        "Uginanie na ławce skośnej z hantlami"
+    ],
+    "Triceps": [
+        "Prostowanie ramion na wyciągu",
+        "Pompki na poręczach",
+        "Francuskie wyciskanie sztangi leżąc",
+        "Wyciskanie francuskie hantlem",
+        "Wyciskanie w wąskim chwycie",
+        "Prostowanie ramienia w opadzie",
+        "Prostowanie ramion na wyciągu podchwytem",
+        "Wyciskanie na maszynie siedząc",
+        "Francuskie wyciskanie stojąc",
+        "Wyciskanie hantli w wąskim chwycie"
+    ]
 };
 
 let currentCategory = null;
@@ -64,8 +130,16 @@ function addSet() {
     newCard.style.padding = '12px';
     newCard.innerHTML = `
         <div class="set-row">
-            <input type="number" placeholder="Waga (kg)" class="weight-input set-input" />
-            <input type="number" placeholder="Powtórzenia" class="reps-input set-input" />
+            <div class="input-step-group">
+                <button type="button" class="btn-step" onclick="adjustInputValue(this, -2.5, 'weight')">-2.5</button>
+                <input type="number" placeholder="Waga (kg)" class="weight-input set-input" step="0.5" />
+                <button type="button" class="btn-step" onclick="adjustInputValue(this, 2.5, 'weight')">+2.5</button>
+            </div>
+            <div class="input-step-group">
+                <button type="button" class="btn-step" onclick="adjustInputValue(this, -1, 'reps')">-1</button>
+                <input type="number" placeholder="Powtórzenia" class="reps-input set-input" step="1" />
+                <button type="button" class="btn-step" onclick="adjustInputValue(this, 1, 'reps')">+1</button>
+            </div>
             <button class="delete-btn" onclick="removeSet(this)">Usuń serię</button>
             <button class="btn" onclick="saveSingleSet(this)">Zapisz serię</button>
         </div>
@@ -213,11 +287,6 @@ function startTimer() {
 function stopTimer() {
     clearInterval(timerInterval);
     timerInterval = null;
-}
-
-function stopTimer() {
-    clearInterval(timerInterval);
-    timerInterval = null;
 
     const timerEl = document.getElementById('timer');
     const statusEl = document.getElementById('timer-status');
@@ -230,10 +299,10 @@ function resetTimer() {
     seconds = 0;
     minutes = 0;
     hours = 0;
-    
+
     const timerEl = document.getElementById('timer');
     const statusEl = document.getElementById('timer-status');
-    
+
     if (timerEl) {
         timerEl.textContent = '00:00:00';
         timerEl.classList.remove('running');
@@ -359,7 +428,7 @@ function startNewWorkout() {
         </div>
 
         <div class="card" style="text-align: center; background: linear-gradient(135deg, #f1f8f2 0%, #ffffff 100%);">
-            <span class="card-label">Czas przerw / treningu</span>
+            <span class="card-label"><span id="timer-status" class="timer-status"></span>Czas przerw / treningu</span>
             <div id="timer" class="timer">00:00:00</div>
             <div style="display: flex; gap: 8px; justify-content: center;">
                 <button class="btn" style="padding: 8px 14px; font-size: 12px;" onclick="startTimer()">Start</button>
@@ -397,11 +466,14 @@ function selectCategory(category) {
         <div class="card">
             <span class="card-label">Krok 2 (${category})</span>
             <h3 style="margin: 6px 0 12px 0; font-size: 16px;">Wybierz ćwiczenie</h3>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+
+            <input type="text" id="exercise-search" placeholder="Szukaj ćwiczenia..." class="set-input" style="margin-bottom: 10px;" oninput="filterExercises()" />
+
+            <div id="exercises-list-container" style="display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow-y: auto; padding-right: 4px;">
     `;
 
     exercises.forEach(exercise => {
-        exercisesHTML += `<button class="btn" style="background: #f4f7f5; color: #1a2e22; border: 1px solid #d1ded4; text-align: left;" onclick="selectExercise('${exercise}')">🏋️‍♂️ ${exercise}</button>`;
+        exercisesHTML += `<button class="btn exercise-btn" style="background: #f4f7f5; color: #1a2e22; border: 1px solid #d1ded4; text-align: left;" onclick="selectExercise('${exercise}')">${exercise}</button>`;
     });
 
     exercisesHTML += `</div>
@@ -418,6 +490,11 @@ function selectExercise(exercise) {
     const workoutscreen = document.getElementById('screen-workout');
     if (!workoutscreen) return;
 
+    const lastSet = getLastExerciseSet(exercise);
+    const lastHint = lastSet
+        ? `<p style="font-size: 12px; color: #2e7d32; margin-bottom: 8px;"> Ostatnio: <strong>${lastSet.weight} kg × ${lastSet.reps} powt.</strong></p>`
+        : `<p style="font-size: 12px; color: #6b7c70; margin-bottom: 8px;"> Brak historii dla tego ćwiczenia</p>`;
+
     workoutscreen.innerHTML = `
         <div class="dashboard-header">
             <div>
@@ -429,23 +506,43 @@ function selectExercise(exercise) {
 
         <div class="card">
             <span class="card-label">${currentCategory}</span>
-            <h3 style="margin: 4px 0 12px 0; font-size: 16px;">${currentExercise}</h3>
+            <h3 style="margin: 4px 0 4px 0; font-size: 16px;">${currentExercise}</h3>
+            ${lastHint}
             
             <div id="sets-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
                 <div class="card" style="background: #f9fbf9; padding: 12px;">
                     <div class="set-row">
-                        <input type="number" placeholder="Waga (kg)" class="weight-input set-input" />
-                        <input type="number" placeholder="Powtórzenia" class="reps-input set-input" />
+                        <div class="input-step-group">
+                            <button type="button" class="btn-step" onclick="adjustInputValue(this, -2.5, 'weight')">-2.5</button>       
+                            <input type="number" placeholder="Waga (kg)" class="weight-input set-input" step="0.5" /> 
+                            <button type="button" class="btn-step" onclick="adjustInputValue(this, 2.5, 'weight')">+2.5</button>
+                        </div>
+                        <div class="input-step-group">
+                            <button type="button" class="btn-step" onclick="adjustInputValue(this, -1, 'reps')">-1</button>       
+                            <input type="number" placeholder="Powtórzenia" class="reps-input set-input" step="1" />
+                            <button type="button" class="btn-step" onclick="adjustInputValue(this, 1, 'reps')">+1</button>
+                        </div>
                         <button class="delete-btn" onclick="removeSet(this)">Usuń serię</button>
                         <button class="btn" onclick="saveSingleSet(this)">Zapisz serię</button>
                     </div>
                 </div>
             </div>
             
-            <button class="btn" style="background: #f4f7f5; color: #2e7d32; border: 1px dashed #2e7d32; margin-bottom: 8px;" onclick="addSet()">+ Dodaj kolejną serię</button>
-            <button class="btn" style="background: #6b7c70;" onclick="selectCategory('${currentCategory}')">← Wróć do ćwiczeń</button>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn" style="background: #6b7c70; flex: 1;" onclick="selectCategory('${currentCategory}')">← Ćwiczenia</button>
+                <button class="btn" style="background: #2e7d32; flex: 1;" onclick="finishWorkout()">✔ Zakończ</button>
+            </div>
         </div>
     `;
+}
+
+function finishWorkout() {
+    stopTimer();
+    resetTimer();
+    currentCategory = null;
+    currentExercise = null;
+    showToast('Trening został zakończony!');
+    showScreen('history');
 }
 
 function showToast(message, isError = false) {
@@ -466,4 +563,46 @@ function showToast(message, isError = false) {
     setTimeout(() => {
         toast.remove();
     }, 2000);
+}
+
+function adjustInputValue(btn, adjustment, inputType) {
+    const group = btn.closest('.input-step-group');
+    if (!group) return;
+    const input = group.querySelector(inputType === 'weight' ? '.weight-input' : '.reps-input');
+    if (!input) return;
+
+    let currentValue = parseFloat(input.value) || 0;
+    let newValue = currentValue + adjustment;
+    if (newValue < 0) newValue = 0;
+
+    input.value = inputType === 'reps' ? Math.round(newValue) : newValue;
+}
+
+function getLastExerciseSet(exerciseName) {
+    let workoutHistory = getStorageData('workoutHistory');
+
+    for (let i = workoutHistory.length - 1; i >= 0; i--) {
+        let workout = workoutHistory[i];
+        if (workout.exercise === exerciseName && workout.sets && workout.sets.length > 0) {
+            return workout.sets[workout.sets.length - 1];
+        }
+    }
+    return null;
+}
+
+function filterExercises() {
+    const searchInput = document.getElementById('exercise-search');
+    if (!searchInput) return;
+
+    const query = searchInput.value.toLowerCase();
+    const buttons = document.querySelectorAll('.exercise-btn');
+    
+    buttons.forEach(button => {
+        const text = button.textContent.toLowerCase();
+        if (text.includes(query)) {
+            button.style.display = ''; 
+        } else {
+            button.style.display = 'none'; 
+        }
+    });
 }

@@ -411,3 +411,28 @@ h2 {
         transform: translateY(0);
     }
 }
+
+.input-step-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.btn-step {
+    background: #e1e9e3;
+    color: #1a2e22;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-step:active {
+    background: #c8e6c9;
+    transform: scale(0.95);
+}
