@@ -1,159 +1,174 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div class="app-container">
-        
+
         <section id="screen-dashboard" class="screen active">
-    <div class="dashboard-header">
-        <div>
-            <h1>Moje treningi</h1>
-            <p class="subtitle">Śledź swoje postępy i osiągnięcia</p>
-        </div>
-    </div>
-
-    <div class="card progress-card">
-        <div class="progress-info">
-            <span class="card-label">Tydzień</span>
-            <h3 id="stat-streak">3 / 4</h3>
-            <p>Treningi wykonane</p>
-        </div>
-        <div class="progress-circle">
-            <span>75%</span>
-        </div>
-    </div>
-
-    <div class="card action-card" onclick="showScreen('workout')">
-        <div class="action-content">
-            <span class="badge">Szybki start</span>
-            <h3>Rozpocznij nowy trening</h3>
-            <p>Wybierz partie mięśniowe i ćwiczenia</p>
-        </div>
-        <div class="arrow">➔</div>
-    </div>
-
-    <div class="section-header">
-        <h3>Ostatnie treningi</h3>
-        <span class="link" onclick="showScreen('history')">Zobacz wszystkie</span>
-    </div>
-
-    <div class="card workout-item-card">
-        <div class="workout-left">
-            <div class="status-icon">✓</div>
-            <div>
-                <h4>Push (klatka + barki + triceps)</h4>
-                <p class="date-text">Dzisiaj • 1h 15min</p>
+            <div class="dashboard-header">
+                <div>
+                    <h1>Moje treningi</h1>
+                    <p class="subtitle">Śledź swoje postępy i osiągnięcia</p>
+                </div>
             </div>
-        </div>
-    </div>
-</section>
+
+            <div class="card progress-card">
+                <div class="progress-info">
+                    <span class="card-label">Tydzień</span>
+                    <h3 id="stat-streak">3 / 4</h3>
+                    <p>Treningi wykonane</p>
+                </div>
+                <div class="progress-circle">
+                    <span>75%</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Aktywność w tym tygodniu<h3>
+                <div id="weekly-stats-container" style="margin-top: 10px;">
+                </div>
+            </div>
+
+            <div class="card action-card" onclick="showScreen('workout')">
+                <div class="action-content">
+                    <span class="badge">Szybki start</span>
+                    <h3>Rozpocznij nowy trening</h3>
+                    <p>Wybierz partie mięśniowe i ćwiczenia</p>
+                </div>
+                <div class="arrow">➔</div>
+            </div>
+
+            <div class="section-header">
+                <h3>Ostatnie treningi</h3>
+                <span class="link" onclick="showScreen('history')">Zobacz wszystkie</span>
+            </div>
+
+            <div class="card workout-item-card">
+                <div class="workout-left">
+                    <div class="status-icon">✓</div>
+                    <div>
+                        <h4>Push (klatka + barki + triceps)</h4>
+                        <p class="date-text">Dzisiaj • 1h 15min</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section id="screen-profile" class="screen">
-    <div class="dashboard-header">
-        <div>
-            <h1>Mój Profil</h1>
-            <p class="subtitle">Twoje dane i parametry ciała</p>
-        </div>
-    </div>
-
-    <div class="card">
-        <span class="card-label">Statystyki treningowe</span>
-        <div style="margin-top: 10px;">
-            <p id="stat-streak" style="font-weight: 600; font-size: 15px; color: #1a2e22;">Zapisane treningi łącznie: 0</p>
-        </div>
-    </div>
-
-    <div class="card">
-        <span class="card-label">Parametry ciała</span>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-            <div style="display: flex; justify-content: space-between; font-size: 14px;">
-                <span style="color: #6b7c70;">Waga docelowa:</span>
-                <strong>75 kg</strong>
+            <div class="dashboard-header">
+                <div>
+                    <h1>Mój Profil</h1>
+                    <p class="subtitle">Twoje dane i parametry ciała</p>
+                </div>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 14px;">
-                <span style="color: #6b7c70;">Waga aktualna:</span>
-                <strong>78 kg</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 14px;">
-                <span style="color: #6b7c70;">Wzrost:</span>
-                <strong>180 cm</strong>
-            </div>
-        </div>
-    </div>
 
-    <div class="card highlight">
-        <span class="card-label" style="color: #2e7d32;">Wskaźnik masy ciała</span>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
-            <h3 style="font-size: 20px; color: #1b5e20; margin: 0;">BMI: 24.1</h3>
-            <span class="badge" style="background-color: #2e7d32; color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px;">Prawidłowe</span>
-        </div>
-    </div>
-</section>
+            <div class="card">
+                <span class="card-label">Statystyki treningowe</span>
+                <div style="margin-top: 10px;">
+                    <p id="stat-streak" style="font-weight: 600; font-size: 15px; color: #1a2e22;">Zapisane treningi
+                        łącznie: 0</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="card-label">Parametry ciała</span>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                        <span style="color: #6b7c70;">Waga docelowa:</span>
+                        <strong>75 kg</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                        <span style="color: #6b7c70;">Waga aktualna:</span>
+                        <strong>78 kg</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                        <span style="color: #6b7c70;">Wzrost:</span>
+                        <strong>180 cm</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card highlight">
+                <span class="card-label" style="color: #2e7d32;">Wskaźnik masy ciała</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                    <h3 style="font-size: 20px; color: #1b5e20; margin: 0;">BMI: 24.1</h3>
+                    <span class="badge"
+                        style="background-color: #2e7d32; color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px;">Prawidłowe</span>
+                </div>
+            </div>
+        </section>
 
         <section id="screen-workout" class="screen">
-    <div class="dashboard-header">
-        <div>
-            <h1>Aktywny Trening</h1>
-            <p class="subtitle">Wybierz ćwiczenie i zapisuj serie</p>
-        </div>
-        <div class="header-icon" onclick="startNewWorkout()">New</div>
-    </div>
-
-    <div id="workout-flow-container">
-        <div class="card">
-            <span class="card-label">Krok 1</span>
-            <h3 style="margin: 6px 0 12px 0; font-size: 16px;">Wybierz partię mięśniową</h3>
-            <div class="category-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <button class="btn" onclick="selectCategory('Klatka piersiowa')">Klatka</button>
-                <button class="btn" onclick="selectCategory('Plecy')">Plecy</button>
-                <button class="btn" onclick="selectCategory('Barki')">Barki</button>
-                <button class="btn" onclick="selectCategory('Nogi')">Nogi</button>
-                <button class="btn" onclick="selectCategory('Biceps')">Biceps</button>
-                <button class="btn" onclick="selectCategory('Triceps')">Triceps</button>
+            <div class="dashboard-header">
+                <div>
+                    <h1>Aktywny Trening</h1>
+                    <p class="subtitle">Wybierz ćwiczenie i zapisuj serie</p>
+                </div>
+                <div class="header-icon" onclick="startNewWorkout()">New</div>
             </div>
-        </div>
-    </div>
 
-    <div class="card" style="text-align: center; background: linear-gradient(135deg, #f1f8f2 0%, #ffffff 100%);">
-        <span class="card-label"><span id="timer-status" class="timer-status"></span> Czas przerw / treningu</span>
-        <div id="timer" class="timer">00:00:00</div>
-        <div style="display: flex; gap: 8px; justify-content: center;">
-            <button class="btn" style="padding: 8px 14px; font-size: 12px;" onclick="startTimer()">Start</button>
-            <button class="btn" style="padding: 8px 14px; font-size: 12px; background: #6b7c70;" onclick="stopTimer()">Pauza</button>
-            <button class="btn" style="padding: 8px 14px; font-size: 12px; background: #e53935;" onclick="resetTimer()">Reset</button>
-        </div>
-    </div>
+            <div id="workout-flow-container">
+                <div class="card">
+                    <span class="card-label">Krok 1</span>
+                    <h3 style="margin: 6px 0 12px 0; font-size: 16px;">Wybierz partię mięśniową</h3>
+                    <div class="category-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button class="btn" onclick="selectCategory('Klatka piersiowa')">Klatka</button>
+                        <button class="btn" onclick="selectCategory('Plecy')">Plecy</button>
+                        <button class="btn" onclick="selectCategory('Barki')">Barki</button>
+                        <button class="btn" onclick="selectCategory('Nogi')">Nogi</button>
+                        <button class="btn" onclick="selectCategory('Biceps')">Biceps</button>
+                        <button class="btn" onclick="selectCategory('Triceps')">Triceps</button>
+                    </div>
+                </div>
+            </div>
 
-    <div class="card">
-        <span class="card-label">Statystyka sesji</span>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-            <span style="font-size: 14px; color: #6b7c70;">Łączny ciężar dzisiaj:</span>
-            <strong id="total-weight-today" style="font-size: 16px; color: #2e7d32;">0 kg</strong>
-        </div>
-    </div>
-</section>
+            <div class="card"
+                style="text-align: center; background: linear-gradient(135deg, #f1f8f2 0%, #ffffff 100%);">
+                <span class="card-label"><span id="timer-status" class="timer-status"></span> Czas przerw /
+                    treningu</span>
+                <div id="timer" class="timer">00:00:00</div>
+                <div style="display: flex; gap: 8px; justify-content: center;">
+                    <button class="btn" style="padding: 8px 14px; font-size: 12px;"
+                        onclick="startTimer()">Start</button>
+                    <button class="btn" style="padding: 8px 14px; font-size: 12px; background: #6b7c70;"
+                        onclick="stopTimer()">Pauza</button>
+                    <button class="btn" style="padding: 8px 14px; font-size: 12px; background: #e53935;"
+                        onclick="resetTimer()">Reset</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="card-label">Statystyka sesji</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                    <span style="font-size: 14px; color: #6b7c70;">Łączny ciężar dzisiaj:</span>
+                    <strong id="total-weight-today" style="font-size: 16px; color: #2e7d32;">0 kg</strong>
+                </div>
+            </div>
+        </section>
 
         <section id="screen-history" class="screen">
-    <div class="dashboard-header">
-        <div>
-            <h1>Historia Treningów</h1>
-            <p class="subtitle">Wszystkie Twoje zapisane sesje</p>
-        </div>
-        <div class="header-icon" onclick="loadHistory()">Load </div>
-    </div>
+            <div class="dashboard-header">
+                <div>
+                    <h1>Historia Treningów</h1>
+                    <p class="subtitle">Wszystkie Twoje zapisane sesje</p>
+                </div>
+                <div class="header-icon" onclick="loadHistory()">Load </div>
+            </div>
 
-    <div id="history-list" style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px;">
-        <div class="card">
-            <p style="text-align: center; color: #6b7c70;">Ładowanie historii...</p>
-        </div>
-    </div>
-</section>
+            <div id="history-list" style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px;">
+                <div class="card">
+                    <p style="text-align: center; color: #6b7c70;">Ładowanie historii...</p>
+                </div>
+            </div>
+        </section>
 
         <nav class="bottom-nav">
             <button class="nav-btn active" onclick="showScreen('dashboard')">Pulpit</button>
@@ -166,4 +181,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>

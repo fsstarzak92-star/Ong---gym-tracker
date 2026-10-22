@@ -117,6 +117,11 @@ function showScreen(screenId) {
         loadPersonalRecords();
     }
 
+    if (screenId === 'dashboard') {
+        loadWeeklyStats();
+        loadDashboardStats();
+    }
+
     localStorage.setItem('activeScreen', screenId);
 }
 
@@ -181,6 +186,7 @@ function saveSingleSet(button) {
     loadHistory();
     loadPersonalRecords();
     updateTotalWeightToday();
+    loadWeeklyStats();
 
     showToast('Seria została zapisana!');
     weightInput.value = '';
@@ -249,6 +255,7 @@ function deleteWorkout(index) {
     loadHistory();
     loadPersonalRecords();
     updateTotalWeightToday();
+    loadWeeklyStats();
 }
 
 let seconds = 0;
@@ -317,6 +324,7 @@ window.onload = function () {
     loadHistory();
     loadPersonalRecords();
     updateTotalWeightToday();
+    loadWeeklyStats();
 
     const savedScreen = localStorage.getItem('activeScreen');
     if (savedScreen) {
@@ -341,6 +349,8 @@ function loadDashboardStats() {
     if (streakElement) {
         streakElement.textContent = `Zapisane treningi łącznie: ${totalWorkouts}`;
     }
+    
+    loadWeeklyStats();
 }
 
 function loadPersonalRecords() {
@@ -605,4 +615,39 @@ function filterExercises() {
             button.style.display = 'none'; 
         }
     });
+}
+
+function loadWeeklyStats() {
+    const container = document.getElementById('weekly-stats-container');
+    if (!container) return;
+
+    let workoutHistory = getStorageData('workoutHistory');
+
+    // Pobieramy daty z ostatnich 7 dni
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        days.push(d.toISOString().split('T')[0]);
+    }
+
+    let html = '<div style="display: flex; justify-content: space-between; align-items: flex-end; height: 80px; gap: 4px; padding-top: 10px;">';
+
+    days.forEach(dayDate => {
+        let setsCount = 0;
+        workoutHistory.forEach(workout => {
+            if (workout.date === dayDate && Array.isArray(workout.sets)) {
+                setsCount += workout.sets.length;
+            }
+        });
+
+        const dayName = new Date(dayDate).toLocaleDateString('pl-PL', { weekday: 'narrow' });
+        const barHeight = setsCount > 0 ? Math.min(setsCount * 12, 60) : 4;
+        const barColor = setsCount > 0 ? '#2e7d32' : '#e1e9e3';
+
+        html += '<div style="display: flex; flex-direction: column; align-items: center; flex: 1;"><span style="font-size: 10px; color: #6b7c70; margin-bottom: 2px;">' + (setsCount > 0 ? setsCount : '') + '</span><div style="width: 100%; max-width: 16px; height: ' + barHeight + 'px; background: ' + barColor + '; border-radius: 4px;"></div><span style="font-size: 11px; font-weight: 600; color: #1a2e22; margin-top: 4px;">' + dayName + '</span></div>';
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
 }
